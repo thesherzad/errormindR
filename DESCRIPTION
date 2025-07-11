@@ -3,7 +3,7 @@ Title: Detect And Explain The Given Error, Offers Solution Using AI/LLM
 Version: 0.0.0.9000
 Authors@R: 
     person("Amin", "Sherzad", , "thesherzads@gmail.com", role = c("aut", "cre"))
-Description: Pipe it to the following of the script/code the is failing. It'll submit the error and context (the code prior to that line) to AI and returns the AI response.
+Description: Pipe it to the following of the script/code that is failing. It'll submit the error and context (the code prior to that line) to AI and returns the AI response.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -16,5 +16,8 @@ Imports:
     rstudioapi,
     whisker
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
