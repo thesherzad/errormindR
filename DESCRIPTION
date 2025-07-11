@@ -1,5 +1,5 @@
 Package: errormindR
-Title: Detect And Explain The Given Error, Offers Solution Using AI/LLM
+Title: Efficient Error Handling with AI
 Version: 0.0.0.9000
 Authors@R: 
     person("Amin", "Sherzad", , "thesherzads@gmail.com", role = c("aut", "cre"))

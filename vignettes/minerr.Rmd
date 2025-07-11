@@ -1,5 +1,5 @@
 ---
-title: "Using minerr to Automate Error Handling with AI"
+title: "Efficient Error Handling with AI"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{minerr}
