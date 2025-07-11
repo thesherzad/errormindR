@@ -1,15 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# errormindR: Efficient Error Handling with AI
+# errormindR: Efficient Error Debugging and Handling with AI
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-## Disclaimer
-
-This is a prove of concept package and contains only two functions. It’s
-not recommended for production.
+Disclaimer: This is a prove of concept package and contains only two
+functions. It’s not recommended for production.
 
 The goal of `errormindR` is to provide a friendly interface to
 communicate with a AI/LLM to explain an error and provide a solution
@@ -41,7 +39,7 @@ pak::pak("thesherzad/errormindR")
 
 ## Example
 
-This is a basic example which shows you can call it:
+This is a basic example which shows how you can call it:
 
 ``` r
 library(errormindR)
@@ -50,3 +48,6 @@ log("123") |> minerr()
 # after that's run
 minerr_log()
 ```
+
+Note: This package uses `tempdir()` to store the logs temporarily within
+user’s session.

@@ -1,5 +1,5 @@
 ---
-title: "Efficient Error Handling with AI"
+title: "Efficient Error Debugging and Handling with AI"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{minerr}
