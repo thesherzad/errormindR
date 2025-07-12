@@ -9,7 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Disclaimer: This is a prove of concept package and contains only two
+Disclaimer: This package is a prove of concept and contains only two
 functions. It’s not recommended for production.
 
 The goal of `errormindR` is to provide a friendly interface to

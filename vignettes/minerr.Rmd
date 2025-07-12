@@ -45,13 +45,14 @@ When you call `minerr()`, it captures the error, sends a prompt to the AI model,
 
 - `chat`: Optional. Provide additional information or questions for the AI.
 - `share_full_context`: Logical. Set to `TRUE` to share the broader context of the session.
-- `llm_func`: Optional. Allows you to specify a custom LLM function. By default, it uses OpenAI's GPT models.
+- `llm_func`: Optional. Allows you to specify a custom LLM function. By default, it uses OpenAI's GPT (4.1) model.
 - `insert_code`: Logical. If `TRUE`, any suggested code from the AI will be inserted into your editor.
 
 ### Notes
 
 - `minerr()` is designed to work interactively within RStudio.
 - The function automatically captures the last error from the evaluated expression.
+- If `insert_code` is TRUE (default) it'll insert the code where the cursor is. If you select your code and run, it'll replace that code with the AI generated solution.
 
 # The `minerr_log()` Function: Reviewing AI Conversations
 

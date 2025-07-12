@@ -12,7 +12,7 @@
 #' minerr_log(download = TRUE)
 #' }
 minerr_log <- function(download = FALSE){
-  # download option
+
   if(isTRUE(download)){
     destfile <- "errormindR_last_chat_log.txt"
 
@@ -47,7 +47,7 @@ minerr_log <- function(download = FALSE){
 minerr <- function(paren.frame = parent.frame(),
                    chat = NULL,
                    share_full_context = TRUE,
-                   llm_func = purrr::partial(ellmer::chat_openai, model = "gpt-4o"),
+                   llm_func = purrr::partial(ellmer::chat_openai, model = "gpt-4.1"),
                    insert_code = TRUE){
 
   stopifnot(is.null(chat) | is.character(chat))
@@ -57,7 +57,7 @@ minerr <- function(paren.frame = parent.frame(),
 
   tryCatch({
     # log the error
-    capture_error(paren.frame())
+    capture_error(paren.frame)
   }, finally = {
     sys_prompt <- build_prompt(share_full_context)
 
@@ -70,7 +70,7 @@ minerr <- function(paren.frame = parent.frame(),
 
     llm_resp <- llm$chat(
       .chat
-    )
+    ) |> invisible()
 
     # log the chat
     if(length(llm_resp) > 0){
