@@ -4,6 +4,9 @@
 # errormindR: Efficient Error Debugging and Handling with AI
 
 <!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 Disclaimer: This is a prove of concept package and contains only two
