@@ -74,13 +74,13 @@ minerr <- function(paren.frame = parent.frame(),
 
     # log the chat
     if(length(llm_resp) > 0){
-      create_chat_log(llm_resp)
+      create_chat_log(llm_resp, chat)
     }
 
     # clean and insert the code into editor
     if(isTRUE(insert_code)){
       gsub("```r\\s*|```", "", llm_resp) |>
-        glue::glue("\n\n") |>
+        glue::glue("\n\n", .open = "<<<", .close = ">>>") |>
         rstudioapi::insertText()
     }
   })
