@@ -74,19 +74,18 @@ build_chat <- function(user_chat = NULL){
   }
   # add user input if provided
   chat <- if(is.null(user_chat)) "Help me to debug this R code: \n" else paste0(user_chat, "\n")
-  glue::glue(
-    chat,
-    glue::glue_collapse(error_to_chat, sep = "\n")
-  )
+
+  colpsd_error <- glue::glue_collapse(error_to_chat, sep = "\n")
+  glue::glue("{chat}\n{colpsd_error}")
 }
 
 # create a log of this conversation with LLM
 create_chat_log <- function(llm_resp){
   glue::glue(
-    get_editor_content()$file_name, "\n\n",
-    get_editor_content()$runtime, "\n\n",
-    "Request to LLM: \n", build_chat(), "\n\n",
-    "LLM's Reponse: \n", llm_resp
+    "{get_editor_content()$file_name}\n\n",
+    "{get_editor_content()$runtime}\n\n",
+    "Request to LLM: \n{build_chat()}\n\n",
+    "LLM's Reponse: \n{llm_resp}"
   ) |>
     writeLines(con = file.path(get_log_dir(), "last_chat_log.txt"), sep = "\n")
 }
