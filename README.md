@@ -13,7 +13,7 @@ Disclaimer: This package is a prove of concept and contains only two
 functions. It’s not recommended for production.
 
 The goal of `errormindR` is to provide a friendly interface to
-communicate with a AI/LLM to explain an error and provide a solution
+communicate with an AI/LLM to explain an error and provide a solution
 right in the RStudio editor.
 
 Future plan: the ultimate goal of the package is to automatically
@@ -51,6 +51,12 @@ This is a basic example which shows how you can call it:
 ``` r
 library(errormindR)
 log("123") |> minerr()
+
+# or
+df <- data.frame(x = c("Jan", "Feb", "Mar", "Apr", "May", "June", "Jul"))
+df |> dplyr::filter(x == "Jun") |>
+  minerr(is_logical_error = TRUE,
+         chat = "expecting to get some record, but getting nothing")
 
 # after that's run
 minerr_log()
