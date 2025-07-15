@@ -16,19 +16,23 @@ The goal of `errormindR` is to provide a friendly interface to
 communicate with a AI/LLM to explain an error and provide a solution
 right in the RStudio editor.
 
-Not implemented now, but the ultimate goal of the package is to
-automatically replaces the failing parts of a program. Think of this
-that you’ve some programs that run based on schedule, but something
-unexpected causes failure. This tool can be called (future versions) as
-an extra layer of safety to debug the code, test the output against the
-previous version and keep a log of these changes.
+Future plan: the ultimate goal of the package is to automatically
+replace the failing parts of a program. Think of this that you’ve some
+programs that run based on schedule, but something unexpected causes
+failure. This tool can be called (future versions) as an extra layer of
+safety to debug the code, test the output against the previous version
+and keep a log of these changes.
 
 This package uses `ellmer` package behind the scene to communicate with
-an LLM. The default model is “gpt-4o” from OpenAI, but you can provide
+an LLM. The default model is “gpt-4.1” from OpenAI, but you can provide
 your own. Additionally, you may need to set up your API key if this is
 your first time using LLM via API. Here’s a brief
 [guide](https://ellmer.tidyverse.org/reference/chat_openai.html?q=OPENAI_API_KEY#arg-api-key)
 how set it up in your RStudio.
+
+Lastly, this package uses `rstudioapi` package here and there, and
+entirely tested in RStudio. If you’re using it in a different IDE, it
+may not work as expected.
 
 ## Installation
 

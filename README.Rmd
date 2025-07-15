@@ -20,12 +20,14 @@ knitr::opts_chunk$set(
 
 Disclaimer: This package is a prove of concept and contains only two functions. It's not recommended for production.
 
-The goal of `errormindR` is to provide a friendly interface to communicate with a AI/LLM to explain an error and provide a solution right in the RStudio editor.
+The goal of `errormindR` is to provide a friendly interface to communicate with an AI/LLM to explain an error and provide a solution right in the RStudio editor.
 
-Not implemented now, but the ultimate goal of the package is to automatically replaces the failing parts of a program. Think of this that you've some programs that run based on schedule, but something unexpected causes failure. This tool can be called (future versions) as an extra layer of safety to debug the code, test the output against the previous version and keep a log of these changes.
+Future plan: the ultimate goal of the package is to automatically replace the failing parts of a program. Think of this that you've some programs that run based on schedule, but something unexpected causes failure. This tool can be called (future versions) as an extra layer of safety to debug the code, test the output against the previous version and keep a log of these changes.
 
-This package uses `ellmer` package behind the scene to communicate with an LLM. The default model is "gpt-4o" from OpenAI, but you can provide your own.
+This package uses `ellmer` package behind the scene to communicate with an LLM. The default model is "gpt-4.1" from OpenAI, but you can provide your own.
 Additionally, you may need to set up your API key if this is your first time using LLM via API. Here's a brief [guide](https://ellmer.tidyverse.org/reference/chat_openai.html?q=OPENAI_API_KEY#arg-api-key) how set it up in your RStudio.
+
+Lastly, this package uses `rstudioapi` package here and there, and entirely tested in RStudio. If you're using it in a different IDE, it may not work as expected.
 
 ## Installation
 
@@ -43,6 +45,12 @@ This is a basic example which shows how you can call it:
 ```{r eval=FALSE}
 library(errormindR)
 log("123") |> minerr()
+
+# or
+mtcars |> 
+  dplyr::filter(gear == "4") |>
+  minerr(is_logical_error = TRUE,
+         chat = "expecting to get some records, but get nothing")
 
 # after that's run
 minerr_log()

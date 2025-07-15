@@ -26,23 +26,43 @@ The `errormindR` package introduces AI-assisted tools to help R users diagnose a
 
 The `minerr()` function helps you analyze an error by capturing the context and sending it to an LLM (such as OpenAI's GPT) for suggestions. The AI can provide explanations, potential fixes, and even code snippets to help you resolve the problem.
 
+Note: The `minerr()` function can be used in two ways:
+
+  1. As a piped expression (e.g., `some_code |> minerr()`), and
+  2. By passing the code directly inside the function (e.g., `minerr(some_code)`).
+
+For expressions like `ggplot2` plots, `if` statements, or `for` loops, piping will not capture errors correctly, because R evaluates these expressions lazily or delays execution until they are printed or run. To ensure proper error capture in these cases, always wrap the code block inside `minerr()` directly.
+
 ### Usage
 
 ```r
 library(errormindR)
 
-# Example: Trigger an intentional error
+# Example
 library(data.table)
 dt <- as.data.table(mtcars)
-
-# Incorrect usage that triggers an error
 dt[, .(cnt = .N), by = .("cyl", "gear")] |> minerr()
+
+minerr(
+  ggplot2::ggplot(df, aes(x, y))+
+  geom_point()
+)
+
+x <- c(TRUE, FALSE)
+minerr(
+  if (x) {
+    print("x is TRUE")
+  }
+)
+
 ```
 
 When you call `minerr()`, it captures the error, sends a prompt to the AI model, and then prints the AI's response in the console. Optionally, it can insert the suggested code directly into your RStudio script editor.
 
 ### Key Arguments
 
+- `.expr`: Expression. The code block that fails. If not pipe-able, then it must be provided inside parenthesis. e.g.: `minerr(code_here)`
+- `is_logical_error`: Logical. Set to `TRUE` to indicate the error is a logical error. But must provide details via `chat` argument.
 - `chat`: Optional. Provide additional information or questions for the AI.
 - `share_full_context`: Logical. Set to `TRUE` to share the broader context of the session.
 - `llm_func`: Optional. Allows you to specify a custom LLM function. By default, it uses OpenAI's GPT (4.1) model.

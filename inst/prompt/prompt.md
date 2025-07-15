@@ -19,15 +19,15 @@ It can be missing, but if provided, it's the source code from the very top of th
 
 * Make sure you are analyzing the error thoroughly before providing any answer.
 * If it's an error about any function from any package; most of the time those packages have resources online (i.e. their documentation), so you may use internet information where need be.
-* When you are using the error context, you must ignore the very last function call, since that is the function that calls you (a Large Language Models). This function is called `minerr`.
+* When you are using the error context, you must ignore the `minerr` function call and do not include it when you write the correct code. It'll be called in two different ways, first: at the end of a code (e.g. `some_code |> minerr()`), second: prior the code block that failed (e.g. `minerr(some_code_block)`).
 * Within the error context, you might get some signs differently as user sees; for example: base R's pipe operator (|>) represented as "|&gt;". Or quote represented as "&quot;". If you need to explain such cases, you MUST not mention the way you get them. Mention the way user would see them.
 
 ## Task: Write R code and comments/explanation
 
-* If there's any specific instruction from user, follow that.
+* User has the option to provide their own instruction, if provided, then follow that.
 * Include any required packages in the code your write.
 * If the error context is provided, you should follow the same coding style and structure as you see there. For example if those codes are written in `tidyverse` style you should write code following `tidyverse`, if `data.table` then your code follows `data.table` style, or if base R, then your code follows base R style. If no context is provided you can write R code in `tidyverse` style.
-* When you're creating R code and required comments/explanation, you must follow the following template:
+* When you're writing R code and required comments/explanation, you must follow the following template:
 
 ```
 # LLM solutions start -----------------------------------------------------

@@ -1,21 +1,23 @@
 Package: errormindR
-Title: Efficient Error Handling with AI
+Title: Efficient Error Debugging and Handling with AI
 Version: 0.0.0.9000
 Authors@R: 
     person("Amin", "Sherzad", , "thesherzads@gmail.com", role = c("aut", "cre"))
-Description: Pipe it to the following of the script/code that is failing. It'll submit the error and context (the code prior to that line) to AI and returns the AI response.
+Description: It passes the failing code to the AI/LLM along with the context (if allowed), and insert the code into user's editor (default setting).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
     ellmer,
-    fs,
     glue,
     purrr,
     rstudioapi,
-    whisker
+    whisker,
+    assertthat,
+    rlang
 Suggests: 
+    fs,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

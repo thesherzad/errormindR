@@ -5,17 +5,20 @@
 \title{Using AI/LLM analyzes the given error and offers solution}
 \usage{
 minerr(
-  paren.frame = parent.frame(),
+  .expr,
   chat = NULL,
+  is_logical_error = FALSE,
   share_full_context = TRUE,
-  llm_func = purrr::partial(ellmer::chat_openai, model = "gpt-4o"),
+  llm_func = purrr::partial(ellmer::chat_openai, model = "gpt-4.1"),
   insert_code = TRUE
 )
 }
 \arguments{
-\item{paren.frame}{environment, parent context. Not needed to provide any value.}
+\item{.expr}{expression, the code block that fails}
 
-\item{chat}{character, user input}
+\item{chat}{character, user input/instructions to LLM. Required if \code{is_logical_error} is TRUE}
+
+\item{is_logical_error}{logical, set to TRUE if it's a logical error}
 
 \item{share_full_context}{logical, whether to share the context or not}
 
@@ -34,5 +37,12 @@ Using AI/LLM analyzes the given error and offers solution
 library(data.table)
 dt <- as.data.table(mtcars)
 dt[, .(cnt = .N), by = .("cyl", "gear")] |> minerr()
+
+x <- c(TRUE, FALSE)
+minerr(
+  if (x) {
+    print("x is TRUE")
+  }
+)
 }
 }

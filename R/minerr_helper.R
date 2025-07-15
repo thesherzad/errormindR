@@ -1,23 +1,24 @@
 
-# read console; to detect the last error
-capture_error <- function(parent.frame = parent.frame()){
+# check if the given code is really a `call` object
+check_expr <- function(.expr){
+  tryCatch({
+    result <- eval(.expr, envir = parent.frame())
 
-  error_log <- file(file.path(get_log_dir(), "errormindR_logs.txt"))
+    if (inherits(result, "ggplot") || inherits(result, "recordedplot") || is.language(result)) {
+      invisible(print(result))
+    }
 
-  sink(error_log, append = FALSE, type = "output")
-  sink(error_log, append = FALSE, type = "message")
+    if (is.function(result)) {
+      invisible(force(result()))
+    }
 
-  # Ensure sinks and connection close even on error
-  on.exit({
-    sink(type = "message")
-    sink(type = "output")
-    close(error_log)
-  }, add = TRUE)
-
-  parent.frame
+    return(TRUE)
+  }, error = function(e) {
+    invisible(return(structure(list(error = e), class = "captured_error")))
+  })
 }
 
-# context; code up to the error point
+# collect context; code up to the error point
 get_editor_content <- function(share_full_context = TRUE){
   file_name <- paste("File name:", basename(rstudioapi::getSourceEditorContext()$path))
 
@@ -38,7 +39,7 @@ get_editor_content <- function(share_full_context = TRUE){
   context
 }
 
-# prepare prompt
+# prepare prompt for LLM
 build_prompt <- function(share_full_context = TRUE){
   stopifnot(is.logical(share_full_context))
 
@@ -66,40 +67,32 @@ build_prompt <- function(share_full_context = TRUE){
 }
 
 # create chat content for LLM; in case user provided additional context
-build_chat <- function(user_chat = NULL){
-  error_to_chat <- readLines(get_log_path())
+build_chat <- function(error_msg, user_chat = NULL){
+  if(inherits(error_msg, "captured_error")){
+    error_msg <- paste0("Error [", class(error_msg)[1], "]: ", error_msg$error)
+  }
 
-  if(length(error_to_chat) < 1){
+  if(length(error_msg) < 1){
     warning("No error found to debug")
   }
   # add user input if provided
-  chat <- if(is.null(user_chat)) "Help me to debug this R code: \n" else paste0(user_chat, "\n")
-
-  colpsd_error <- glue::glue_collapse(error_to_chat, sep = "\n")
-  glue::glue("<<<chat>>>\n<<<colpsd_error>>>", .open = "<<<", .close = ">>>")
+  chat <- if(is.null(user_chat)) "Help me to debug below R code: \n" else paste0(user_chat, "\n")
+  glue::glue("<<<chat>>>\n<<<error_msg>>>", .open = "<<<", .close = ">>>")
 }
 
 # create a log of this conversation with LLM
-create_chat_log <- function(llm_resp, user_chat){
+create_chat_log <- function(llm_resp, req_to_llm){
   glue::glue(
     "<<<get_editor_content()$file_name>>>\n\n",
     "<<<get_editor_content()$runtime>>>\n\n",
-    "Request to LLM: \n<<<build_chat(user_chat)>>>\n\n",
+    "Request to LLM: \n<<<req_to_llm>>>\n\n",
     "LLM's Reponse: \n<<<llm_resp>>>",
     .open = "<<<", .close = ">>>"
   ) |>
     writeLines(con = file.path(get_log_dir(), "last_chat_log.txt"), sep = "\n")
 }
 
-# return path to the log file
-get_log_path <- function(){
-  log_path <- file.path(get_log_dir(), "errormindR_logs.txt")
-  if(!file.exists(log_path)){
-    stop("Logs not found")
-  }
-  log_path
-}
-
+# return last log's path
 get_last_log_path <- function(){
   log_path <- file.path(get_log_dir(), "last_chat_log.txt")
   if(!file.exists(log_path)){
